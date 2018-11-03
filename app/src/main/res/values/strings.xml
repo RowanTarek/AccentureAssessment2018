@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">AlbumsViewer</string>
+    <string name="noDataAvailable">No Data Available</string>
+</resources>
