@@ -32,7 +32,8 @@ class AlbumsListFragment : Fragment() {
     private fun loadAlbumsList() {
         albumsViewModel.getAlbums().observe(this, Observer<List<Album>> { albumsList ->
             if (albumsList?.isNotEmpty() == true) {
-                val albumsListAdapter = AlbumsListAdapter(albumsList)
+                val sortedAlbumsList = albumsList.sortedWith(compareBy({ it.title }))
+                val albumsListAdapter = AlbumsListAdapter(sortedAlbumsList)
                 contentRecyclerView.adapter = albumsListAdapter
             } else {
                 recyclerErrorMsgTextView.text = getString(R.string.noDataAvailable)
