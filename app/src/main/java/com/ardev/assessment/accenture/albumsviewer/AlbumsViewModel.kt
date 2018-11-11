@@ -1,13 +1,15 @@
 package com.ardev.assessment.accenture.albumsviewer
 
-import android.arch.lifecycle.ViewModel
+import android.app.Application
+import android.arch.lifecycle.AndroidViewModel
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
 
 
-class AlbumsViewModel : ViewModel() {
+class AlbumsViewModel(application: Application) : AndroidViewModel(application) {
     private lateinit var albums: MutableLiveData<List<Album>>
-    private val albumsRepository: AlbumsRepository = AlbumsRepository()
+    private val albumsRepository: AlbumsRepository = AlbumsRepository(NetworkUtil(application))
+
 
     fun getAlbums(): LiveData<List<Album>> {
         if (!::albums.isInitialized) {
