@@ -18,7 +18,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 import static junit.framework.TestCase.assertTrue;
 
-public class ExampleUnitTest {
+public class ServerUnitTest {
     @Test
     public void testServiceExecution() throws IOException {
         MockWebServer mockWebServer = new MockWebServer();
