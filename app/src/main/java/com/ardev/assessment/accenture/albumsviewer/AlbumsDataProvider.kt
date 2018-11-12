@@ -14,8 +14,13 @@ class RemoteDataProvider(private val networkUtil: NetworkUtil) : AlbumsDataProvi
 
     override fun loadAlbums(): MutableLiveData<List<Album>> {
         val data = MutableLiveData<List<Album>>()
-
-        remoteClient.getRemoteServices().getAlbums().enqueue(object : Callback<List<Album>> {
+        val serviceHandler =
+                if (networkUtil.isConnected()) {
+                    remoteClient.getRemoteServices(remoteClient.getRetrofit())
+                } else {
+                    remoteClient.getRemoteServices(remoteClient.getCachedRetrofit())
+                }
+        serviceHandler.getAlbums().enqueue(object : Callback<List<Album>> {
             override fun onResponse(call: Call<List<Album>>, response: Response<List<Album>>) {
                 data.value = response.body()
             }
@@ -24,7 +29,6 @@ class RemoteDataProvider(private val networkUtil: NetworkUtil) : AlbumsDataProvi
                 data.value = null
             }
         })
-
         return data
     }
 }
