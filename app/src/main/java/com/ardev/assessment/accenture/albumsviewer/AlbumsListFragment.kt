@@ -15,6 +15,7 @@ class AlbumsListFragment : Fragment() {
     private lateinit var albumsViewModel: AlbumsViewModel
 
     companion object {
+        @JvmStatic
         fun newInstance() = AlbumsListFragment()
     }
 
