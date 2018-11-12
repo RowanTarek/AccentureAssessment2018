@@ -1,33 +1,30 @@
 package com.ardev.assessment.accenture.albumsviewer;
 
-import android.support.test.InstrumentationRegistry;
+import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.ViewModelProviders;
 import android.support.test.espresso.contrib.RecyclerViewActions;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.widget.RecyclerView;
 
 import com.android21buttons.fragmenttestrule.FragmentTestRule;
 
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import org.junit.Assert.*;
-
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
+
+import kotlin.jvm.Throws;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
-import static android.support.test.espresso.matcher.ViewMatchers.withText;
-import static org.hamcrest.core.AllOf.allOf;
+import static junit.framework.TestCase.assertTrue;
 
 @RunWith(AndroidJUnit4.class)
 public class UiTest {
@@ -54,8 +51,7 @@ public class UiTest {
     @Rule
     public ActivityTestRule<AlbumsListActivity> activityRule = new ActivityTestRule<>(AlbumsListActivity.class);
     @Rule
-    public FragmentTestRule<?, AlbumsListFragment> fragmentTestRule =
-            FragmentTestRule.create(AlbumsListFragment.class);
+    public FragmentTestRule<?, AlbumsListFragment> fragmentTestRule = FragmentTestRule.create(AlbumsListFragment.class);
 
     @Before
     public void init() {
@@ -65,24 +61,25 @@ public class UiTest {
 
     @Test
     public void testEmptyListDisplay() {
-//        recyclerView.setAdapter(new AlbumsListAdapter(getEmptyList()));
-//        int itemCount = Objects.requireNonNull(recyclerView.getAdapter()).getItemCount();
-//        Assert.assertEquals(itemCount, 0);
-        onView(withId(R.id.recyclerErrorMsgTextView)/*, withText(activityRule.getActivity().getString(R.string.noDataAvailable))*/)
+        onView(withId(R.id.recyclerErrorMsgTextView))
                 .check(matches(isDisplayed()));
     }
-
+/*
     @Test
-    public void testFilledList() {
-         onView(withId(R.id.contentRecyclerView))
+    @Throws(exceptionClasses = IllegalStateException.class)
+    public void testEmptyListView() {
+        onView(withId(R.id.contentRecyclerView))
                 .perform(
                         RecyclerViewActions.actionOnItemAtPosition(0, click())
                 );
+    }*/
+
+    @Test
+    public void validateViewModel () {
+        AlbumsViewModel viewModel = ViewModelProviders.of(activityRule.getActivity()).get(AlbumsViewModel.class);
+       assertTrue(viewModel.getAlbums().hasObservers());
     }
 
-    /*
-            int itemCount = Objects.requireNonNull(recyclerView.getAdapter()).getItemCount();
-            */
     private List<Album> getNoList() {
         return null;
     }
